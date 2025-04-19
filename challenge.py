@@ -66,5 +66,5 @@ for nombre, df in tiendas:
 
 df_calificaciones = pd.DataFrame(calificaciones).sort_values(by='Calificación Promedio', ascending=False)
 
-print("\n🔹 Calificación promedio por tienda:")
+print("\n Calificación promedio por tienda:")
 print(df_calificaciones)
