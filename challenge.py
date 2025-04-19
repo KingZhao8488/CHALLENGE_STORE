@@ -27,7 +27,7 @@ for nombre, df in tiendas:
     ingresos.append({'Tienda': nombre, 'Ingreso': ingreso})
 
 df_ingresos = pd.DataFrame(ingresos).sort_values(by='Ingreso', ascending=False)
-print("🔹 Ingresos por Tienda:")
+print(" Ingresos por Tienda:")
 print(df_ingresos)
 
 # ------------------------
@@ -47,6 +47,24 @@ for nombre, df in tiendas:
 df_categorias = pd.concat(categorias_por_tienda, ignore_index=True)
 df_categorias = df_categorias.sort_values(by=['Tienda', 'Categoría del Producto'])
 
-print("\n🔹 Cantidad de productos vendidos por categoría:")
+print("\n Cantidad de productos vendidos por categoría:")
 print(df_categorias)
 
+# ------------------------
+# CALIFICACIÓN PROMEDIO POR TIENDA
+# ------------------------
+
+calificaciones = []
+
+for nombre, df in tiendas:
+    if 'Calificación' in df.columns:
+        promedio = df['Calificación'].mean()
+    else:
+        promedio = None
+        print(f"[ADVERTENCIA] {nombre} no tiene la columna 'Calificación'")
+    calificaciones.append({'Tienda': nombre, 'Calificación Promedio': promedio})
+
+df_calificaciones = pd.DataFrame(calificaciones).sort_values(by='Calificación Promedio', ascending=False)
+
+print("\n🔹 Calificación promedio por tienda:")
+print(df_calificaciones)
