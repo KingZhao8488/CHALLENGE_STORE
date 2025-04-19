@@ -1,29 +1,52 @@
-import matplotlib.pyplot as plt
 import pandas as pd
+import matplotlib.pyplot as plt
 
-url = "https://raw.githubusercontent.com/alura-es-cursos/challenge1-data-science-latam/refs/heads/main/base-de-datos-challenge1-latam/tienda_1%20.csv"
-url2 = "https://raw.githubusercontent.com/alura-es-cursos/challenge1-data-science-latam/refs/heads/main/base-de-datos-challenge1-latam/tienda_2.csv"
-url3 = "https://raw.githubusercontent.com/alura-es-cursos/challenge1-data-science-latam/refs/heads/main/base-de-datos-challenge1-latam/tienda_3.csv"
-url4 = "https://raw.githubusercontent.com/alura-es-cursos/challenge1-data-science-latam/refs/heads/main/base-de-datos-challenge1-latam/tienda_4.csv"
+# URLs de los archivos CSV
+urls = {
+    'Tienda 1': "https://raw.githubusercontent.com/alura-es-cursos/challenge1-data-science-latam/refs/heads/main/base-de-datos-challenge1-latam/tienda_1%20.csv",
+    'Tienda 2': "https://raw.githubusercontent.com/alura-es-cursos/challenge1-data-science-latam/refs/heads/main/base-de-datos-challenge1-latam/tienda_2.csv",
+    'Tienda 3': "https://raw.githubusercontent.com/alura-es-cursos/challenge1-data-science-latam/refs/heads/main/base-de-datos-challenge1-latam/tienda_3.csv",
+    'Tienda 4': "https://raw.githubusercontent.com/alura-es-cursos/challenge1-data-science-latam/refs/heads/main/base-de-datos-challenge1-latam/tienda_4.csv"
+}
 
-tienda = pd.read_csv(url)
-tienda2 = pd.read_csv(url2)
-tienda3 = pd.read_csv(url3)
-tienda4 = pd.read_csv(url4)
+# Cargar los archivos CSV en una lista de tuplas: (nombre, DataFrame)
+tiendas = [(nombre, pd.read_csv(url)) for nombre, url in urls.items()]
 
-tienda.head()
+# ------------------------
+# INGRESOS POR TIENDA
+# ------------------------
 
-# calcular el ingreso total de cada tienda. Sumando los valores de la columna Precio de cada conjunto de datos de la tienda para estimar los ingresos.
-ingresos_tienda1 = tienda['Precio'].sum()
-ingresos_tienda2 = tienda2['Precio'].sum()
-ingresos_tienda3 = tienda3['Precio'].sum()
-ingresos_tienda4 = tienda4['Precio'].sum()
+ingresos = []
 
-# Crear un DataFrame con los ingresos de cada tienda
-ingresos = pd.DataFrame({
-    'Tienda': ['Tienda 1', 'Tienda 2', 'Tienda 3', 'Tienda 4'],
-    'Ingreso': [ingresos_tienda1, ingresos_tienda2, ingresos_tienda3, ingresos_tienda4]
-})
+for nombre, df in tiendas:
+    if 'Precio' in df.columns:
+        ingreso = df['Precio'].sum(min_count=1)  # min_count=1 para evitar 0 si todos son NaN
+    else:
+        ingreso = None
+        print(f"[ADVERTENCIA] {nombre} no tiene la columna 'Precio'")
+    ingresos.append({'Tienda': nombre, 'Ingreso': ingreso})
 
-# Mostrar el DataFrame de ingresos
-print(ingresos)
+df_ingresos = pd.DataFrame(ingresos).sort_values(by='Ingreso', ascending=False)
+print("🔹 Ingresos por Tienda:")
+print(df_ingresos)
+
+# ------------------------
+# CANTIDAD DE PRODUCTOS VENDIDOS POR CATEGORÍA
+# ------------------------
+
+categorias_por_tienda = []
+
+for nombre, df in tiendas:
+    if 'Categoría del Producto' in df.columns:
+        agrupado = df.groupby('Categoría del Producto').size().reset_index(name='Cantidad')
+        agrupado['Tienda'] = nombre
+        categorias_por_tienda.append(agrupado)
+    else:
+        print(f"[ADVERTENCIA] {nombre} no tiene la columna 'Categoría del Producto'")
+
+df_categorias = pd.concat(categorias_por_tienda, ignore_index=True)
+df_categorias = df_categorias.sort_values(by=['Tienda', 'Categoría del Producto'])
+
+print("\n🔹 Cantidad de productos vendidos por categoría:")
+print(df_categorias)
+
