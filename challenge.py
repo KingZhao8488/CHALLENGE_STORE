@@ -68,3 +68,53 @@ df_calificaciones = pd.DataFrame(calificaciones).sort_values(by='Calificación P
 
 print("\n Calificación promedio por tienda:")
 print(df_calificaciones)
+
+# ------------------------
+# PRODUCTOS MÁS Y MENOS VENDIDOS POR TIENDA
+# ------------------------
+
+print("\n Productos más y menos vendidos por tienda:")
+
+for nombre, df in tiendas:
+    print(f"\n {nombre}")
+    
+    if 'Producto' not in df.columns:
+        print("   [ADVERTENCIA] No se encuentra la columna 'Producto'")
+        continue
+
+    conteo_productos = df['Producto'].value_counts()
+
+    # Obtener el producto más vendido (pueden ser varios)
+    max_ventas = conteo_productos.max()
+    productos_mas_vendidos = conteo_productos[conteo_productos == max_ventas]
+
+    # Obtener el producto menos vendido (pueden ser varios)
+    min_ventas = conteo_productos.min()
+    productos_menos_vendidos = conteo_productos[conteo_productos == min_ventas]
+
+    print("Producto(s) más vendido(s):")
+    for producto, cantidad in productos_mas_vendidos.items():
+        print(f"      - {producto}: {cantidad} ventas")
+
+    print("Producto(s) menos vendido(s):")
+    for producto, cantidad in productos_menos_vendidos.items():
+        print(f"      - {producto}: {cantidad} venta(s)")
+
+# ------------------------
+# COSTO DE ENVÍO PROMEDIO POR TIENDA
+# ------------------------
+
+costos_envio = []
+
+for nombre, df in tiendas:
+    if 'Costo de envío' in df.columns:
+        promedio_envio = df['Costo de envío'].mean()
+    else:
+        promedio_envio = None
+        print(f"[ADVERTENCIA] {nombre} no tiene la columna 'Costo de envío'")
+    costos_envio.append({'Tienda': nombre, 'Costo de Envío Promedio': promedio_envio})
+
+df_envios = pd.DataFrame(costos_envio).sort_values(by='Costo de Envío Promedio', ascending=True)
+
+print("\n Costo de envío promedio por tienda:")
+print(df_envios)
