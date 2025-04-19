@@ -118,3 +118,54 @@ df_envios = pd.DataFrame(costos_envio).sort_values(by='Costo de Envío Promedio'
 
 print("\n Costo de envío promedio por tienda:")
 print(df_envios)
+
+
+# ------------------------
+# GRÁFICO 1: Ingreso total por tienda
+# ------------------------
+df_ingresos.plot(kind='bar', x='Tienda', y='Ingreso', color='skyblue', legend=False)
+plt.title('Ingreso total por tienda')
+plt.ylabel('Ingreso total (USD)')
+plt.xlabel('Tienda')
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.show()
+
+# ------------------------
+# GRÁFICO 2: Calificación promedio por tienda
+# ------------------------
+df_calificaciones.plot(kind='bar', x='Tienda', y='Calificación Promedio', color='lightgreen', legend=False)
+plt.title('Calificación promedio por tienda')
+plt.ylabel('Promedio')
+plt.ylim(0, 5)
+plt.xlabel('Tienda')
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.show()
+
+# ------------------------
+# GRÁFICO 3: Costo de envío promedio por tienda
+# ------------------------
+df_envios.plot(kind='bar', x='Tienda', y='Costo de Envío Promedio', color='orange', legend=False)
+plt.title('Costo de envío promedio por tienda')
+plt.ylabel('Costo promedio (USD)')
+plt.xlabel('Tienda')
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.show()
+
+# ------------------------
+# GRÁFICO 4: Productos vendidos por categoría y tienda
+# ------------------------
+plt.figure(figsize=(12,6))
+for tienda in df_categorias['Tienda'].unique():
+    subset = df_categorias[df_categorias['Tienda'] == tienda]
+    plt.bar(subset['Categoría del Producto'], subset['Cantidad'], label=tienda)
+
+plt.title('Productos vendidos por categoría y tienda')
+plt.xlabel('Categoría del Producto')
+plt.ylabel('Cantidad')
+plt.xticks(rotation=45)
+plt.legend()
+plt.tight_layout()
+plt.show()
