@@ -189,10 +189,6 @@ ax4.legend()
 img_categorias = guardar_grafico(fig4, "categorias")
 
 # ------------------------
-# Crear archivo HTML con todos los gráficos
-# ------------------------
-
-# ------------------------
 # Crear archivo HTML con diseño en modo oscuro y responsivo
 # ------------------------
 
