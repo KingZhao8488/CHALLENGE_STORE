@@ -119,73 +119,83 @@ mapa.save(mapa_path)
 # ------------------------
 html_path = "reporte_tiendas.html"
 with open(html_path, "w", encoding="utf-8") as f:
-    f.write("""<!DOCTYPE html>
+    f.write(f"""<!DOCTYPE html>
 <html lang='es'>
 <head>
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <title>Reporte de Tiendas</title>
+    <title>Dashboard de Análisis de Tiendas</title>
     <style>
-    :root {
+    :root {{
         --floral-white: #fffcf2;
         --timberwolf: #ccc5b9;
         --black-olive: #403d39;
         --eerie-black: #252422;
         --flame: #eb5e28;
-    }
-    body {
+    }}
+    body {{
         margin: 0;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         background-color: var(--eerie-black);
         color: var(--floral-white);
         padding: 1rem;
         line-height: 1.6;
-    }
-    header {
+    }}
+    header {{
         background-color: var(--black-olive);
         padding: 1rem;
         border-left: 5px solid var(--flame);
         margin-bottom: 2rem;
         border-radius: 8px;
-    }
-    h1 {
+    }}
+    h1 {{
         margin: 0;
         font-size: 2rem;
         color: var(--flame);
-    }
-    h2 {
+    }}
+    h2 {{
         color: var(--flame);
         border-bottom: 2px solid var(--flame);
         padding-bottom: 0.3rem;
-    }
-    .seccion {
+    }}
+    .seccion {{
         background-color: var(--black-olive);
         padding: 1rem;
         border-radius: 8px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         margin-bottom: 2rem;
-    }
-    img {
+    }}
+    img {{
         max-width: 100%;
         height: auto;
         border: 2px solid var(--flame);
         border-radius: 8px;
         display: block;
         margin: 1rem auto;
-    }
-    footer {
+    }}
+    a.boton {{
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        background-color: var(--flame);
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        text-align: center;
+        margin-top: 1rem;
+    }}
+    footer {{
         text-align: center;
         font-size: 0.9em;
         color: var(--timberwolf);
         margin-top: 40px;
         border-top: 1px solid var(--black-olive);
         padding-top: 10px;
-    }
+    }}
     </style>
 </head>
 <body>
     <header>
-    <h1>Reporte de Análisis de Tiendas</h1>
+    <h1>Dashboard de Análisis de Tiendas</h1>
     </header>
     <main>
 """)
@@ -205,13 +215,15 @@ with open(html_path, "w", encoding="utf-8") as f:
     f.write(f"""
     <section class='seccion'>
         <h2>Mapa Interactivo de Ventas</h2>
-        <p><a href='{mapa_path}' target='_blank' style='color: var(--flame); text-decoration: underline;'>Ver mapa interactivo en nueva pestaña</a></p>
+        <a href='{mapa_path}' class='boton' target='_blank'>Ver Mapa Interactivo</a>
     </section>
     </main>
     <footer>
-    Andres Guerrero. Generado automáticamente con Python - {pd.Timestamp.today().strftime('%d/%m/%Y')}
+    Reporte generado automáticamente - Proyecto de Análisis de Datos
     </footer>
 </body>
-</html>""")
+</html>
+""")
 
-webbrowser.open_new_tab(os.path.abspath(html_path))
+# Abrir reporte en navegador
+webbrowser.open(f"file://{os.path.abspath(html_path)}")

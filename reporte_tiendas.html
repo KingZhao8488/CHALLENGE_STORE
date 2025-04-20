@@ -3,7 +3,7 @@
 <head>
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <title>Reporte de Tiendas</title>
+    <title>Dashboard de Análisis de Tiendas</title>
     <style>
     :root {
         --floral-white: #fffcf2;
@@ -52,6 +52,16 @@
         display: block;
         margin: 1rem auto;
     }
+    a.boton {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        background-color: var(--flame);
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        text-align: center;
+        margin-top: 1rem;
+    }
     footer {
         text-align: center;
         font-size: 0.9em;
@@ -64,7 +74,7 @@
 </head>
 <body>
     <header>
-    <h1>Reporte de Análisis de Tiendas</h1>
+    <h1>Dashboard de Análisis de Tiendas</h1>
     </header>
     <main>
 
@@ -95,11 +105,11 @@
 
     <section class='seccion'>
         <h2>Mapa Interactivo de Ventas</h2>
-        <p><a href='imagenes_reportes\mapa_interactivo.html' target='_blank' style='color: var(--flame); text-decoration: underline;'>Ver mapa interactivo en nueva pestaña</a></p>
+        <a href='imagenes_reportes\mapa_interactivo.html' class='boton' target='_blank'>Ver Mapa Interactivo</a>
     </section>
     </main>
     <footer>
-    Andres Guerrero. Generado automáticamente con Python - 20/04/2025
+    Reporte generado automáticamente - Proyecto de Análisis de Datos
     </footer>
 </body>
 </html>
