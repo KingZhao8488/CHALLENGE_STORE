@@ -192,19 +192,104 @@ img_categorias = guardar_grafico(fig4, "categorias")
 # Crear archivo HTML con todos los gráficos
 # ------------------------
 
+# ------------------------
+# Crear archivo HTML con diseño en modo oscuro y responsivo
+# ------------------------
+
 html_path = "reporte_tiendas.html"
 with open(html_path, "w", encoding="utf-8") as f:
-    f.write("<html><head><title>Reporte de Tiendas</title></head><body>")
-    f.write("<h1>Reporte de Análisis de Tiendas</h1>")
+    f.write("""
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reporte de Tiendas</title>
+    <style>
+    :root {
+        --floral-white: #fffcf2;
+        --timberwolf: #ccc5b9;
+        --black-olive: #403d39;
+        --eerie-black: #252422;
+        --flame: #eb5e28;
+    }
+    body {
+        margin: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: var(--eerie-black);
+        color: var(--floral-white);
+        padding: 1rem;
+        line-height: 1.6;
+    }
+    header {
+        background-color: var(--black-olive);
+        padding: 1rem;
+        border-left: 5px solid var(--flame);
+        margin-bottom: 2rem;
+    }
+    h1 {
+        margin: 0;
+        font-size: 2rem;
+        color: var(--flame);
+    }
+    h2 {
+        color: var(--flame);
+        border-bottom: 2px solid var(--flame);
+        padding-bottom: 0.3rem;
+    }
+    .seccion {
+        background-color: var(--black-olive);
+        padding: 1rem;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        margin-bottom: 2rem;
+    }
+    img {
+        max-width: 100%;
+        height: auto;
+        border: 2px solid var(--flame);
+        border-radius: 8px;
+        display: block;
+        margin: 1rem auto;
+    }
+    footer {
+        text-align: center;
+        font-size: 0.9em;
+        color: var(--timberwolf);
+        margin-top: 40px;
+        border-top: 1px solid var(--black-olive);
+        padding-top: 10px;
+    }
+    </style>
+</head>
+<body>
+    <header>
+    <h1>Reporte de Análisis de Tiendas</h1>
+    </header>
+    <main>
+""")
+
     for title, img in [
         ("Ingreso Total por Tienda", img_ingresos),
         ("Calificación Promedio por Tienda", img_calificaciones),
         ("Costo de Envío Promedio por Tienda", img_envio),
         ("Productos Vendidos por Categoría y Tienda", img_categorias),
     ]:
-        f.write(f"<h2>{title}</h2>")
-        f.write(f'<img src="{img}" style="width:600px;"><br><br>')
-    f.write("</body></html>")
+        f.write(f"""
+    <section class="seccion">
+        <h2>{title}</h2>
+        <img src="{img}" alt="{title}">
+    </section>
+""")
+
+    f.write(f"""
+    </main>
+    <footer>
+    Andres Guerrero. Generado automáticamente con Python - {pd.Timestamp.today().strftime('%d/%m/%Y')}
+    </footer>
+</body>
+</html>
+""")
 
 # Abrir en el navegador
-webbrowser.open_new_tab(html_path)
+webbrowser.open_new_tab(os.path.abspath(html_path))
