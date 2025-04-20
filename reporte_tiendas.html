@@ -1,97 +1,105 @@
-
 <!DOCTYPE html>
-<html lang="es">
+<html lang='es'>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Reporte de Tiendas</title>
-  <style>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>Reporte de Tiendas</title>
+    <style>
     :root {
-      --floral-white: #fffcf2;
-      --timberwolf: #ccc5b9;
-      --black-olive: #403d39;
-      --eerie-black: #252422;
-      --flame: #eb5e28;
+        --floral-white: #fffcf2;
+        --timberwolf: #ccc5b9;
+        --black-olive: #403d39;
+        --eerie-black: #252422;
+        --flame: #eb5e28;
     }
     body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: var(--eerie-black);
-      color: var(--floral-white);
-      padding: 1rem;
-      line-height: 1.6;
+        margin: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: var(--eerie-black);
+        color: var(--floral-white);
+        padding: 1rem;
+        line-height: 1.6;
     }
     header {
-      background-color: var(--black-olive);
-      padding: 1rem;
-      border-left: 5px solid var(--flame);
-      margin-bottom: 2rem;
-      border-radius: 8px;
+        background-color: var(--black-olive);
+        padding: 1rem;
+        border-left: 5px solid var(--flame);
+        margin-bottom: 2rem;
+        border-radius: 8px;
     }
     h1 {
-      margin: 0;
-      font-size: 2rem;
-      color: var(--flame);
+        margin: 0;
+        font-size: 2rem;
+        color: var(--flame);
     }
     h2 {
-      color: var(--flame);
-      border-bottom: 2px solid var(--flame);
-      padding-bottom: 0.3rem;
+        color: var(--flame);
+        border-bottom: 2px solid var(--flame);
+        padding-bottom: 0.3rem;
     }
     .seccion {
-      background-color: var(--black-olive);
-      padding: 1rem;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-      margin-bottom: 2rem;
+        background-color: var(--black-olive);
+        padding: 1rem;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        margin-bottom: 2rem;
     }
     img {
-      max-width: 100%;
-      height: auto;
-      border: 2px solid var(--flame);
-      border-radius: 8px;
-      display: block;
-      margin: 1rem auto;
+        max-width: 100%;
+        height: auto;
+        border: 2px solid var(--flame);
+        border-radius: 8px;
+        display: block;
+        margin: 1rem auto;
     }
     footer {
-      text-align: center;
-      font-size: 0.9em;
-      color: var(--timberwolf);
-      margin-top: 40px;
-      border-top: 1px solid var(--black-olive);
-      padding-top: 10px;
+        text-align: center;
+        font-size: 0.9em;
+        color: var(--timberwolf);
+        margin-top: 40px;
+        border-top: 1px solid var(--black-olive);
+        padding-top: 10px;
     }
-  </style>
+    </style>
 </head>
 <body>
-  <header>
+    <header>
     <h1>Reporte de Análisis de Tiendas</h1>
-  </header>
-  <main>
+    </header>
+    <main>
 
-    <section class="seccion">
-      <h2>Ingreso Total por Tienda</h2>
-      <img src="imagenes_reportes\ingresos.png" alt="Ingreso Total por Tienda">
+    <section class='seccion'>
+        <h2>Ingreso Total por Tienda</h2>
+        <img src='imagenes_reportes\ingresos.png' alt='Ingreso Total por Tienda'>
     </section>
 
-    <section class="seccion">
-      <h2>Calificación Promedio por Tienda</h2>
-      <img src="imagenes_reportes\calificaciones.png" alt="Calificación Promedio por Tienda">
+    <section class='seccion'>
+        <h2>Calificación Promedio por Tienda</h2>
+        <img src='imagenes_reportes\calificaciones.png' alt='Calificación Promedio por Tienda'>
     </section>
 
-    <section class="seccion">
-      <h2>Costo de Envío Promedio por Tienda</h2>
-      <img src="imagenes_reportes\envio.png" alt="Costo de Envío Promedio por Tienda">
+    <section class='seccion'>
+        <h2>Costo de Envío Promedio por Tienda</h2>
+        <img src='imagenes_reportes\envio.png' alt='Costo de Envío Promedio por Tienda'>
     </section>
 
-    <section class="seccion">
-      <h2>Productos Vendidos por Categoría y Tienda</h2>
-      <img src="imagenes_reportes\categorias.png" alt="Productos Vendidos por Categoría y Tienda">
+    <section class='seccion'>
+        <h2>Productos Vendidos por Categoría y Tienda</h2>
+        <img src='imagenes_reportes\categorias.png' alt='Productos Vendidos por Categoría y Tienda'>
     </section>
 
-  </main>
-  <footer>
-    Generado automáticamente con Python - 19/04/2025
-  </footer>
+    <section class='seccion'>
+        <h2>Distribución Geográfica de Ventas</h2>
+        <img src='imagenes_reportes\distribucion_geografica.png' alt='Distribución Geográfica de Ventas'>
+    </section>
+
+    <section class='seccion'>
+        <h2>Mapa Interactivo de Ventas</h2>
+        <p><a href='imagenes_reportes\mapa_interactivo.html' target='_blank' style='color: var(--flame); text-decoration: underline;'>Ver mapa interactivo en nueva pestaña</a></p>
+    </section>
+    </main>
+    <footer>
+    Andres Guerrero. Generado automáticamente con Python - 20/04/2025
+    </footer>
 </body>
 </html>

@@ -1,5 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+import folium
+from folium.plugins import HeatMap
 import os
 import webbrowser
 
@@ -25,9 +27,6 @@ urls = {
 # Cargar los archivos CSV en una lista de tuplas: (nombre, DataFrame)
 tiendas = [(nombre, pd.read_csv(url)) for nombre, url in urls.items()]
 
-# Cargar los archivos CSV
-tiendas = [(nombre, pd.read_csv(url)) for nombre, url in urls.items()]
-
 # Ingresos
 ingresos = [{'Tienda': nombre, 'Ingreso': df.get('Precio', pd.Series()).sum()} for nombre, df in tiendas]
 df_ingresos = pd.DataFrame(ingresos).sort_values(by='Ingreso', ascending=False)
@@ -41,29 +40,9 @@ costos_envio = [{'Tienda': nombre, 'Costo de Envío Promedio': df.get('Costo de 
 df_envios = pd.DataFrame(costos_envio).sort_values(by='Costo de Envío Promedio')
 
 # ------------------------
-# INGRESOS POR TIENDA
-# ------------------------
-
-ingresos = []
-
-for nombre, df in tiendas:
-    if 'Precio' in df.columns:
-        ingreso = df['Precio'].sum(min_count=1)  # min_count=1 para evitar 0 si todos son NaN
-    else:
-        ingreso = None
-        print(f"[ADVERTENCIA] {nombre} no tiene la columna 'Precio'")
-    ingresos.append({'Tienda': nombre, 'Ingreso': ingreso})
-
-df_ingresos = pd.DataFrame(ingresos).sort_values(by='Ingreso', ascending=False)
-print(" Ingresos por Tienda:")
-print(df_ingresos)
-
-# ------------------------
 # CANTIDAD DE PRODUCTOS VENDIDOS POR CATEGORÍA
 # ------------------------
-
 categorias_por_tienda = []
-
 for nombre, df in tiendas:
     if 'Categoría del Producto' in df.columns:
         agrupado = df.groupby('Categoría del Producto').size().reset_index(name='Cantidad')
@@ -71,85 +50,19 @@ for nombre, df in tiendas:
         categorias_por_tienda.append(agrupado)
     else:
         print(f"[ADVERTENCIA] {nombre} no tiene la columna 'Categoría del Producto'")
-
 df_categorias = pd.concat(categorias_por_tienda, ignore_index=True)
 df_categorias = df_categorias.sort_values(by=['Tienda', 'Categoría del Producto'])
 
-print("\n Cantidad de productos vendidos por categoría:")
-print(df_categorias)
+# ------------------------
+# ANÁLISIS GEOGRÁFICO DE VENTAS
+# ------------------------
+df_geo = pd.concat([df.assign(Tienda=nombre) for nombre, df in tiendas], ignore_index=True)
+df_geo = df_geo.dropna(subset=['lat', 'lon', 'Precio'])
+df_geo['lat'] = df_geo['lat'].astype(float)
+df_geo['lon'] = df_geo['lon'].astype(float)
 
 # ------------------------
-# CALIFICACIÓN PROMEDIO POR TIENDA
-# ------------------------
-
-calificaciones = []
-
-for nombre, df in tiendas:
-    if 'Calificación' in df.columns:
-        promedio = df['Calificación'].mean()
-    else:
-        promedio = None
-        print(f"[ADVERTENCIA] {nombre} no tiene la columna 'Calificación'")
-    calificaciones.append({'Tienda': nombre, 'Calificación Promedio': promedio})
-
-df_calificaciones = pd.DataFrame(calificaciones).sort_values(by='Calificación Promedio', ascending=False)
-
-print("\n Calificación promedio por tienda:")
-print(df_calificaciones)
-
-# ------------------------
-# PRODUCTOS MÁS Y MENOS VENDIDOS POR TIENDA
-# ------------------------
-
-print("\n Productos más y menos vendidos por tienda:")
-
-for nombre, df in tiendas:
-    print(f"\n {nombre}")
-    
-    if 'Producto' not in df.columns:
-        print("   [ADVERTENCIA] No se encuentra la columna 'Producto'")
-        continue
-
-    conteo_productos = df['Producto'].value_counts()
-
-    # Obtener el producto más vendido (pueden ser varios)
-    max_ventas = conteo_productos.max()
-    productos_mas_vendidos = conteo_productos[conteo_productos == max_ventas]
-
-    # Obtener el producto menos vendido (pueden ser varios)
-    min_ventas = conteo_productos.min()
-    productos_menos_vendidos = conteo_productos[conteo_productos == min_ventas]
-
-    print("Producto(s) más vendido(s):")
-    for producto, cantidad in productos_mas_vendidos.items():
-        print(f"      - {producto}: {cantidad} ventas")
-
-    print("Producto(s) menos vendido(s):")
-    for producto, cantidad in productos_menos_vendidos.items():
-        print(f"      - {producto}: {cantidad} venta(s)")
-
-# ------------------------
-# COSTO DE ENVÍO PROMEDIO POR TIENDA
-# ------------------------
-
-costos_envio = []
-
-for nombre, df in tiendas:
-    if 'Costo de envío' in df.columns:
-        promedio_envio = df['Costo de envío'].mean()
-    else:
-        promedio_envio = None
-        print(f"[ADVERTENCIA] {nombre} no tiene la columna 'Costo de envío'")
-    costos_envio.append({'Tienda': nombre, 'Costo de Envío Promedio': promedio_envio})
-
-df_envios = pd.DataFrame(costos_envio).sort_values(by='Costo de Envío Promedio', ascending=True)
-
-print("\n Costo de envío promedio por tienda:")
-print(df_envios)
-
-
-# ------------------------
-# GRÁFICO 1: Ingreso total por tienda
+# GRÁFICOS ESTÁTICOS
 # ------------------------
 fig1, ax1 = plt.subplots()
 ax1.bar(df_ingresos['Tienda'], df_ingresos['Ingreso'], color='teal')
@@ -157,49 +70,60 @@ ax1.set_title("Ingreso Total por Tienda")
 ax1.set_ylabel("Ingreso")
 img_ingresos = guardar_grafico(fig1, "ingresos")
 
-# ------------------------
-# GRÁFICO 2: Calificación promedio por tienda
-# ------------------------
 fig2, ax2 = plt.subplots()
 ax2.bar(df_calificaciones['Tienda'], df_calificaciones['Calificación Promedio'], color='orange')
 ax2.set_title("Calificación Promedio por Tienda")
 ax2.set_ylabel("Calificación")
 img_calificaciones = guardar_grafico(fig2, "calificaciones")
 
-# ------------------------
-# GRÁFICO 3: Costo de envío promedio por tienda
-# ------------------------
 fig3, ax3 = plt.subplots()
 ax3.bar(df_envios['Tienda'], df_envios['Costo de Envío Promedio'], color='purple')
 ax3.set_title("Costo de Envío Promedio por Tienda")
 ax3.set_ylabel("Costo (USD)")
 img_envio = guardar_grafico(fig3, "envio")
 
-# ------------------------
-# GRÁFICO 4: Productos vendidos por categoría y tienda
-# ------------------------
 fig4, ax4 = plt.subplots(figsize=(10, 6))
 for tienda in df_categorias['Tienda'].unique():
     subset = df_categorias[df_categorias['Tienda'] == tienda]
     ax4.bar(subset['Categoría del Producto'], subset['Cantidad'], label=tienda)
 ax4.set_title("Productos Vendidos por Categoría y Tienda")
 ax4.set_ylabel("Cantidad")
-ax4.set_xticklabels(subset['Categoría del Producto'], rotation=45, ha='right')
+plt.xticks(rotation=45, ha='right')
 ax4.legend()
 img_categorias = guardar_grafico(fig4, "categorias")
 
 # ------------------------
-# Crear archivo HTML con diseño en modo oscuro y responsivo
+# Gráfico de Dispersión Geográfica
 # ------------------------
+fig_geo, ax_geo = plt.subplots(figsize=(10, 6))
+scatter = ax_geo.scatter(df_geo['lon'], df_geo['lat'], c=df_geo['Precio'], cmap='plasma', alpha=0.6)
+plt.colorbar(scatter, ax=ax_geo, label='Precio de Venta')
+ax_geo.set_title("Distribución Geográfica de Ventas")
+ax_geo.set_xlabel("Longitud")
+ax_geo.set_ylabel("Latitud")
+img_geo_scatter = guardar_grafico(fig_geo, "distribucion_geografica")
 
+# ------------------------
+# Mapa Interactivo con Folium
+# ------------------------
+lat_center = df_geo['lat'].mean()
+lon_center = df_geo['lon'].mean()
+mapa = folium.Map(location=[lat_center, lon_center], zoom_start=6, tiles='CartoDB dark_matter')
+heat_data = [[row['lat'], row['lon'], row['Precio']] for idx, row in df_geo.iterrows()]
+HeatMap(heat_data, radius=10).add_to(mapa)
+mapa_path = os.path.join(output_dir, "mapa_interactivo.html")
+mapa.save(mapa_path)
+
+# ------------------------
+# Crear archivo HTML
+# ------------------------
 html_path = "reporte_tiendas.html"
 with open(html_path, "w", encoding="utf-8") as f:
-    f.write("""
-<!DOCTYPE html>
-<html lang="es">
+    f.write("""<!DOCTYPE html>
+<html lang='es'>
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <title>Reporte de Tiendas</title>
     <style>
     :root {
@@ -222,6 +146,7 @@ with open(html_path, "w", encoding="utf-8") as f:
         padding: 1rem;
         border-left: 5px solid var(--flame);
         margin-bottom: 2rem;
+        border-radius: 8px;
     }
     h1 {
         margin: 0;
@@ -264,28 +189,29 @@ with open(html_path, "w", encoding="utf-8") as f:
     </header>
     <main>
 """)
-
     for title, img in [
         ("Ingreso Total por Tienda", img_ingresos),
         ("Calificación Promedio por Tienda", img_calificaciones),
         ("Costo de Envío Promedio por Tienda", img_envio),
         ("Productos Vendidos por Categoría y Tienda", img_categorias),
+        ("Distribución Geográfica de Ventas", img_geo_scatter),
     ]:
         f.write(f"""
-    <section class="seccion">
+    <section class='seccion'>
         <h2>{title}</h2>
-        <img src="{img}" alt="{title}">
+        <img src='{img}' alt='{title}'>
     </section>
 """)
-
     f.write(f"""
+    <section class='seccion'>
+        <h2>Mapa Interactivo de Ventas</h2>
+        <p><a href='{mapa_path}' target='_blank' style='color: var(--flame); text-decoration: underline;'>Ver mapa interactivo en nueva pestaña</a></p>
+    </section>
     </main>
     <footer>
     Andres Guerrero. Generado automáticamente con Python - {pd.Timestamp.today().strftime('%d/%m/%Y')}
     </footer>
 </body>
-</html>
-""")
+</html>""")
 
-# Abrir en el navegador
 webbrowser.open_new_tab(os.path.abspath(html_path))
