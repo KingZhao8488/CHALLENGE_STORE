@@ -20,6 +20,7 @@
         padding: 1rem;
         line-height: 1.6;
     }
+
     header {
         background-color: var(--black-olive);
         padding: 1rem;
@@ -27,22 +28,45 @@
         margin-bottom: 2rem;
         border-radius: 8px;
     }
+
     h1 {
         margin: 0;
-        font-size: 2rem;
+        font-size: 3rem;
         color: var(--flame);
     }
+
     h2 {
         color: var(--flame);
         border-bottom: 2px solid var(--flame);
         padding-bottom: 0.3rem;
     }
+
+    h3 {
+        color: var(--flame);
+        border-bottom: 2px solid var(--flame);
+        padding-bottom: 0.3rem;
+    }
+
     .seccion {
         background-color: var(--black-olive);
         padding: 1rem;
         border-radius: 8px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         margin-bottom: 2rem;
+    }
+    .ventas_tot_tiendas {
+        display: flex;
+        justify-content: space-around;
+        flex-direction: row;
+    }
+    .ventas_tot_tiendas div {
+        background-color: var(--floral-white);
+        color: var(--black-olive);
+        padding: 1rem;
+        border-radius: 8px;
+        margin: 0.5rem;
+        flex: 1 1 calc(25% - 2rem);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     }
     img {
         max-width: 100%;
@@ -77,6 +101,29 @@
     <h1>Dashboard de Análisis de Tiendas</h1>
     </header>
     <main>
+
+    <section class='seccion'>
+        <h2>Ventas Totales por Tienda</h2>
+        <div class='ventas_tot_tiendas'>
+            <div>
+                <h3>Tienda 1</h3>
+                <p>$465.123.123</p>
+            </div>
+            <div>
+                <h3>Tienda 2</h3>
+                <p>$465.123.123</p>
+            </div>
+            <div>
+                <h3>Tienda 3</h3>
+                <p>$465.123.123</p>
+            </div>
+            <div>
+                <h3>Tienda 4</h3>
+                <p>$465.123.123</p>
+            </div>
+        </div>
+        
+    </section>
 
     <section class='seccion'>
         <h2>Ingreso Total por Tienda</h2>
