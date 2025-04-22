@@ -64,37 +64,36 @@ df_geo['lon'] = df_geo['lon'].astype(float)
 # ------------------------
 # GRÁFICOS ESTÁTICOS
 # ------------------------
+# 1. Ingresos - gráfico de líneas
 fig1, ax1 = plt.subplots()
-ax1.bar(df_ingresos['Tienda'], df_ingresos['Ingreso'], color='teal')
+ax1.plot(df_ingresos['Tienda'], df_ingresos['Ingreso'], marker='o', linestyle='-', color='teal')
 ax1.set_title("Ingreso Total por Tienda")
 ax1.set_ylabel("Ingreso")
 img_ingresos = guardar_grafico(fig1, "ingresos")
 
+# 2. Calificaciones - gráfico de áreas
 fig2, ax2 = plt.subplots()
-ax2.bar(df_calificaciones['Tienda'], df_calificaciones['Calificación Promedio'], color='orange')
+ax2.fill_between(df_calificaciones['Tienda'], df_calificaciones['Calificación Promedio'], color='orange', alpha=0.6)
+ax2.plot(df_calificaciones['Tienda'], df_calificaciones['Calificación Promedio'], marker='o', color='orange')
 ax2.set_title("Calificación Promedio por Tienda")
 ax2.set_ylabel("Calificación")
 img_calificaciones = guardar_grafico(fig2, "calificaciones")
 
+# 3. Costos de envío - gráfico horizontal
 fig3, ax3 = plt.subplots()
-ax3.bar(df_envios['Tienda'], df_envios['Costo de Envío Promedio'], color='purple')
+ax3.barh(df_envios['Tienda'], df_envios['Costo de Envío Promedio'], color='purple')
 ax3.set_title("Costo de Envío Promedio por Tienda")
-ax3.set_ylabel("Costo (USD)")
+ax3.set_xlabel("Costo (USD)")
 img_envio = guardar_grafico(fig3, "envio")
 
-fig4, ax4 = plt.subplots(figsize=(10, 6))
-for tienda in df_categorias['Tienda'].unique():
-    subset = df_categorias[df_categorias['Tienda'] == tienda]
-    ax4.bar(subset['Categoría del Producto'], subset['Cantidad'], label=tienda)
-ax4.set_title("Productos Vendidos por Categoría y Tienda")
-ax4.set_ylabel("Cantidad")
-plt.xticks(rotation=45, ha='right')
-ax4.legend()
+# 4. Productos por categoría - gráfico de pastel por tienda (solo una muestra)
+fig4, ax4 = plt.subplots()
+categoria_sample = df_categorias[df_categorias['Tienda'] == df_categorias['Tienda'].unique()[0]]
+ax4.pie(categoria_sample['Cantidad'], labels=categoria_sample['Categoría del Producto'], autopct='%1.1f%%', startangle=90)
+ax4.set_title(f"Distribución por Categoría - {categoria_sample['Tienda'].values[0]}")
 img_categorias = guardar_grafico(fig4, "categorias")
 
-# ------------------------
-# Gráfico de Dispersión Geográfica
-# ------------------------
+# 5. Gráfico de Dispersión Geográfica
 fig_geo, ax_geo = plt.subplots(figsize=(10, 6))
 scatter = ax_geo.scatter(df_geo['lon'], df_geo['lat'], c=df_geo['Precio'], cmap='plasma', alpha=0.6)
 plt.colorbar(scatter, ax=ax_geo, label='Precio de Venta')
@@ -103,9 +102,7 @@ ax_geo.set_xlabel("Longitud")
 ax_geo.set_ylabel("Latitud")
 img_geo_scatter = guardar_grafico(fig_geo, "distribucion_geografica")
 
-# ------------------------
-# Mapa Interactivo con Folium
-# ------------------------
+# Mapa interactivo con Folium
 lat_center = df_geo['lat'].mean()
 lon_center = df_geo['lon'].mean()
 mapa = folium.Map(location=[lat_center, lon_center], zoom_start=6, tiles='CartoDB dark_matter')
@@ -114,116 +111,19 @@ HeatMap(heat_data, radius=10).add_to(mapa)
 mapa_path = os.path.join(output_dir, "mapa_interactivo.html")
 mapa.save(mapa_path)
 
-# ------------------------
-# Crear archivo HTML
-# ------------------------
+# HTML export (sin cambios aún visuales mayores, esto se puede hacer si lo deseas luego)
 html_path = "reporte_tiendas.html"
 with open(html_path, "w", encoding="utf-8") as f:
-    f.write(f"""<!DOCTYPE html>
-<html lang='es'>
-<head>
-    <meta charset='UTF-8'>
-    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <title>Dashboard de Análisis de Tiendas</title>
-    <style>
-    :root {{
-        --floral-white: #fffcf2;
-        --timberwolf: #ccc5b9;
-        --black-olive: #403d39;
-        --eerie-black: #252422;
-        --flame: #eb5e28;
-    }}
-    body {{
-        margin: 0;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background-color: var(--eerie-black);
-        color: var(--floral-white);
-        padding: 1rem;
-        line-height: 1.6;
-    }}
-    header {{
-        background-color: var(--black-olive);
-        padding: 1rem;
-        border-left: 5px solid var(--flame);
-        margin-bottom: 2rem;
-        border-radius: 8px;
-    }}
-    h1 {{
-        margin: 0;
-        font-size: 2rem;
-        color: var(--flame);
-    }}
-    h2 {{
-        color: var(--flame);
-        border-bottom: 2px solid var(--flame);
-        padding-bottom: 0.3rem;
-    }}
-    .seccion {{
-        background-color: var(--black-olive);
-        padding: 1rem;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-        margin-bottom: 2rem;
-    }}
-    img {{
-        max-width: 100%;
-        height: auto;
-        border: 2px solid var(--flame);
-        border-radius: 8px;
-        display: block;
-        margin: 1rem auto;
-    }}
-    a.boton {{
-        display: inline-block;
-        padding: 0.5rem 1rem;
-        background-color: var(--flame);
-        color: white;
-        text-decoration: none;
-        border-radius: 5px;
-        text-align: center;
-        margin-top: 1rem;
-    }}
-    footer {{
-        text-align: center;
-        font-size: 0.9em;
-        color: var(--timberwolf);
-        margin-top: 40px;
-        border-top: 1px solid var(--black-olive);
-        padding-top: 10px;
-    }}
-    </style>
-</head>
-<body>
-    <header>
-    <h1>Dashboard de Análisis de Tiendas</h1>
-    </header>
-    <main>
-""")
+    f.write("<html><head><title>Dashboard</title></head><body>")
     for title, img in [
         ("Ingreso Total por Tienda", img_ingresos),
         ("Calificación Promedio por Tienda", img_calificaciones),
         ("Costo de Envío Promedio por Tienda", img_envio),
-        ("Productos Vendidos por Categoría y Tienda", img_categorias),
+        ("Distribución por Categoría", img_categorias),
         ("Distribución Geográfica de Ventas", img_geo_scatter),
     ]:
-        f.write(f"""
-    <section class='seccion'>
-        <h2>{title}</h2>
-        <img src='{img}' alt='{title}'>
-    </section>
-""")
-    f.write(f"""
-    <section class='seccion'>
-        <h2>Mapa Interactivo de Ventas</h2>
-        <a href='{mapa_path}' class='boton' target='_blank'>Ver Mapa Interactivo</a>
-    </section>
-    </main>
-    <footer>
-    Reporte generado automáticamente - Proyecto de Análisis de Datos
-    </footer>
-</body>
-</html>
-""")
+        f.write(f"<h2>{title}</h2><img src='{img}'><br>")
+    f.write(f"<h2>Mapa Interactivo</h2><a href='{mapa_path}' target='_blank'>Ver mapa</a>")
+    f.write("</body></html>")
 
-# Abrir reporte en navegador
 webbrowser.open(f"file://{os.path.abspath(html_path)}")
