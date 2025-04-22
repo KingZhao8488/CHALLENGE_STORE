@@ -86,7 +86,7 @@ ax3.set_title("Costo de Envío Promedio por Tienda")
 ax3.set_xlabel("Costo (USD)")
 img_envio = guardar_grafico(fig3, "envio")
 
-# 4. Productos por categoría - gráfico de pastel por tienda (solo una muestra)
+# 4. Productos por categoría - gráfico de pastel por tienda
 fig4, ax4 = plt.subplots()
 categoria_sample = df_categorias[df_categorias['Tienda'] == df_categorias['Tienda'].unique()[0]]
 ax4.pie(categoria_sample['Cantidad'], labels=categoria_sample['Categoría del Producto'], autopct='%1.1f%%', startangle=90)
@@ -111,19 +111,125 @@ HeatMap(heat_data, radius=10).add_to(mapa)
 mapa_path = os.path.join(output_dir, "mapa_interactivo.html")
 mapa.save(mapa_path)
 
-# HTML export (sin cambios aún visuales mayores, esto se puede hacer si lo deseas luego)
-html_path = "reporte_tiendas.html"
-with open(html_path, "w", encoding="utf-8") as f:
-    f.write("<html><head><title>Dashboard</title></head><body>")
-    for title, img in [
-        ("Ingreso Total por Tienda", img_ingresos),
-        ("Calificación Promedio por Tienda", img_calificaciones),
-        ("Costo de Envío Promedio por Tienda", img_envio),
-        ("Distribución por Categoría", img_categorias),
-        ("Distribución Geográfica de Ventas", img_geo_scatter),
-    ]:
-        f.write(f"<h2>{title}</h2><img src='{img}'><br>")
-    f.write(f"<h2>Mapa Interactivo</h2><a href='{mapa_path}' target='_blank'>Ver mapa</a>")
-    f.write("</body></html>")
+# HTML export
+html_path = "reporte_dashboard.html"
+html_content = f"""
+<!DOCTYPE html>
+<html lang='es'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta author='Andres Guerrero'>
+    <title>Dashboard - Análisis de Tiendas</title>
+    <style>
+    :root {{
+        --floral-white: #fffcf2;
+        --timberwolf: #ccc5b9;
+        --black-olive: #403d39;
+        --eerie-black: #252422;
+        --flame: #eb5e28;
+    }}
+    body {{
+        margin: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: var(--eerie-black);
+        color: var(--floral-white);
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }}
+    header {{
+        background-color: var(--black-olive);
+        padding: 1rem;
+        border-bottom: 4px solid var(--flame);
+        text-align: left;
+    }}
+    header h1 {{
+        margin: 0;
+        font-size: 2rem;
+        color: var(--floral-white);
+    }}
+    main {{
+        padding: 1rem;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1rem;
+    }}
+    .card {{
+        background-color: var(--black-olive);
+        border-radius: 10px;
+        padding: 1rem;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    }}
+    .card h2 {{
+        color: var(--flame);
+        font-size: 1.2rem;
+        margin-top: 0;
+        margin-bottom: 1rem;
+        border-bottom: 1px solid var(--timberwolf);
+        padding-bottom: 0.5rem;
+    }}
+    .card img {{
+        width: 100%;
+        border-radius: 5px;
+        border: 2px solid var(--flame);
+    }}
+    .map-button {{
+        display: block;
+        margin-top: 1rem;
+        background-color: var(--flame);
+        color: white;
+        padding: 0.5rem 1rem;
+        text-align: center;
+        border-radius: 5px;
+        text-decoration: none;
+    }}
+    footer {{
+        background-color: var(--black-olive);
+        color: var(--timberwolf);
+        text-align: center;
+        padding: 1rem;
+        margin-top: auto;
+    }}
+    </style>
+</head>
+<body>
+    <header>
+    <h1>Dashboard de Análisis de Tiendas</h1>
+    </header>
+    <main>
+    <div class='card'>
+        <h2>Ingreso Total por Tienda</h2>
+        <img src='{img_ingresos}' alt='Ingresos'>
+    </div>
+    <div class='card'>
+        <h2>Calificación Promedio por Tienda</h2>
+        <img src='{img_calificaciones}' alt='Calificaciones'>
+    </div>
+    <div class='card'>
+        <h2>Costo de Envío Promedio por Tienda</h2>
+        <img src='{img_envio}' alt='Costo de Envío'>
+    </div>
+    <div class='card'>
+        <h2>Productos por Categoría</h2>
+        <img src='{img_categorias}' alt='Categorías'>
+    </div>
+    <div class='card'>
+        <h2>Distribución Geográfica</h2>
+        <img src='{img_geo_scatter}' alt='Mapa Geográfico'>
+        <a href='{mapa_path}' class='map-button' target='_blank'>Ver Mapa Interactivo</a>
+    </div>
+    </main>
+    <footer>
+    Reporte generado automáticamente por Andres Guerrero - Abril 2025
+    </footer>
+</body>
+</html>
+"""
 
+# Escribir HTML
+with open(html_path, "w", encoding="utf-8") as f:
+    f.write(html_content)
+
+# Abrir en navegador
 webbrowser.open(f"file://{os.path.abspath(html_path)}")
