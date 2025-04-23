@@ -62,6 +62,22 @@ df_geo['lat'] = df_geo['lat'].astype(float)
 df_geo['lon'] = df_geo['lon'].astype(float)
 
 # ------------------------
+# Ventas totales y calificación promedio por tienda
+# ------------------------
+resumen_kpis = []
+for nombre, df in tiendas:
+    ventas = df['Precio'].sum()
+    calif = df['Calificación'].mean()
+    resumen_kpis.append({"Tienda": nombre, "Ventas Totales": ventas, "Calificación Promedio": round(calif, 2)})
+
+df_kpis = pd.DataFrame(resumen_kpis).sort_values(by='Ventas Totales', ascending=False)
+
+# Mostrar resumen de KPIs
+print("\nResumen de KPIs por tienda:")
+print(df_kpis)
+
+
+# ------------------------
 # GRÁFICOS ESTÁTICOS
 # ------------------------
 # 1. Ingresos - gráfico de líneas
@@ -149,6 +165,28 @@ html_content = f"""
         font-size: 2rem;
         color: var(--floral-white);
     }}
+    .kpi-container {{
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1rem;
+        margin-top: 2rem;
+    }}
+    .kpi-card {{
+        background-color: #403d39;
+        padding: 1rem;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }}
+    .kpi-title {{
+        color: #ccc5b9;
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+    }}
+    .kpi-value {{
+        color: #eb5e28;
+        font-size: 1.6rem;
+        font-weight: bold;
+    }}
     main {{
         padding: 1rem;
         display: grid;
@@ -198,6 +236,21 @@ html_content = f"""
     <h1>Dashboard de Análisis de Tiendas</h1>
     </header>
     <main>
+    <div class='kpi-container'>
+"""
+
+# Añadir tarjetas de KPIs
+for _, row in df_kpis.iterrows():
+    html_content += f"""
+    <div class='kpi-card'>
+        <div class='kpi-title'>{row['Tienda']}</div>
+        <div class='kpi-value'>Ventas: ${row['Ventas Totales']:.2f}</div>
+        <div class='kpi-value'>Calificación: {row['Calificación Promedio']}</div>
+    </div>
+    """
+
+html_content += """
+    </div>
     <div class='card'>
         <h2>Ingreso Total por Tienda</h2>
         <img src='{img_ingresos}' alt='Ingresos'>
@@ -221,9 +274,10 @@ html_content = f"""
     </div>
     </main>
     <footer>
-    Reporte generado automáticamente por Andres Guerrero - Abril 2025
+    Creado por Andres Guerrero. Reporte generado automáticamente con Python - Abril 2025
     </footer>
 </body>
+
 </html>
 """
 
