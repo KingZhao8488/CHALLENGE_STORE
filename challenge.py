@@ -166,10 +166,20 @@ html_content = f"""
         color: var(--floral-white);
     }}
     .kpi-container {{
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        align-items: center;
         gap: 1rem;
         margin-top: 2rem;
+        margin-bottom: 2rem;
+        padding: 1rem;
+        background-color: var(--black-olive);
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.3);
+        border: 2px solid var(--flame);
+        
     }}
     .kpi-card {{
         background-color: #403d39;
@@ -189,9 +199,28 @@ html_content = f"""
     }}
     main {{
         padding: 1rem;
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
         gap: 1rem;
+    }}
+    .g_card {{
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+        justify-content: center;
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+        padding: 1rem;
+        background-color: var(--eerie-black);
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.3);
+        border: 2px solid var(--flame);
+        transition: transform 0.2s;
+        cursor: pointer;
+        text-align: center;
+
     }}
     .card {{
         background-color: var(--black-olive);
@@ -236,41 +265,29 @@ html_content = f"""
     <h1>Dashboard de Análisis de Tiendas</h1>
     </header>
     <main>
-    <div class='kpi-container'>
-"""
 
-# Añadir tarjetas de KPIs
-for _, row in df_kpis.iterrows():
-    html_content += f"""
-    <div class='kpi-card'>
-        <div class='kpi-title'>{row['Tienda']}</div>
-        <div class='kpi-value'>Ventas: ${row['Ventas Totales']:.2f}</div>
-        <div class='kpi-value'>Calificación: {row['Calificación Promedio']}</div>
-    </div>
-    """
-
-html_content += """
-    </div>
-    <div class='card'>
-        <h2>Ingreso Total por Tienda</h2>
-        <img src='{img_ingresos}' alt='Ingresos'>
-    </div>
-    <div class='card'>
-        <h2>Calificación Promedio por Tienda</h2>
-        <img src='{img_calificaciones}' alt='Calificaciones'>
-    </div>
-    <div class='card'>
-        <h2>Costo de Envío Promedio por Tienda</h2>
-        <img src='{img_envio}' alt='Costo de Envío'>
-    </div>
-    <div class='card'>
-        <h2>Productos por Categoría</h2>
-        <img src='{img_categorias}' alt='Categorías'>
-    </div>
-    <div class='card'>
-        <h2>Distribución Geográfica</h2>
-        <img src='{img_geo_scatter}' alt='Mapa Geográfico'>
-        <a href='{mapa_path}' class='map-button' target='_blank'>Ver Mapa Interactivo</a>
+    <div class='g_card'>
+        <div class='card'>
+            <h2>Ingreso Total por Tienda</h2>
+            <img src='{img_ingresos}' alt='Ingresos'>
+        </div>
+        <div class='card'>
+            <h2>Calificación Promedio por Tienda</h2>
+            <img src='{img_calificaciones}' alt='Calificaciones'>
+        </div>
+        <div class='card'>
+            <h2>Costo de Envío Promedio por Tienda</h2>
+            <img src='{img_envio}' alt='Costo de Envío'>
+        </div>
+        <div class='card'>
+            <h2>Productos por Categoría</h2>
+            <img src='{img_categorias}' alt='Categorías'>
+        </div>
+        <div class='card'>
+            <h2>Distribución Geográfica</h2>
+            <img src='{img_geo_scatter}' alt='Mapa Geográfico'>
+            <a href='{mapa_path}' class='map-button' target='_blank'>Ver Mapa Interactivo</a>
+        </div>
     </div>
     </main>
     <footer>
