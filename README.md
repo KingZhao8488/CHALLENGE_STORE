@@ -1,4 +1,4 @@
-<em> # Dashboard de Análisis de Tiendas </em>
+# Dashboard de Análisis de Tiendas
 
 ¡Bienvenido al proyecto de **Análisis de Desempeño de Tiendas**!  
 Este repositorio contiene un script de Python que realiza un análisis completo de ventas, categorías, calificaciones y distribución geográfica de las tiendas de un desafío de ciencia de datos.
@@ -7,7 +7,7 @@ Este repositorio contiene un script de Python que realiza un análisis completo 
 
 En este proyecto analizamos 4 tiendas virtuales distintas utilizando **Python**, **Pandas**, **Matplotlib**, y **Folium** para generar:
 
-- **KPIs Ejecutivos** (ventas totales y calificación promedio)
+- **Ventas totales y calificación promedio
 - **Gráficos** (líneas, áreas, barras horizontales, pie charts, dispersión geográfica)
 - **Mapa Interactivo** con distribución de ventas
 - **Dashboard Responsive** en HTML, con estilo en modo oscuro
@@ -17,7 +17,7 @@ Todo se ejecuta localmente de forma automática.
 
 ## 🛠 Tecnologías utilizadas
 
-- Python 3.11+
+- Python 3.13+
 - Pandas
 - Matplotlib
 - Folium
@@ -29,15 +29,17 @@ Todo se ejecuta localmente de forma automática.
 1. Clona el repositorio:
 
    ```bash
-   git clone https://github.com/tu_usuario/tu_repositorio.git
+    git clone https://github.com/tu_usuario/tu_repositorio.git
 
 2. Instala las dependencias necesarias:
 
-pip install pandas matplotlib folium
+   ```bash
+    pip install pandas matplotlib folium
 
 3. Ejecuta el archivo principal:
 
-python challenge.py
+   ```bash
+    python challenge.py
 
 4. El dashboard HTML se abrirá automáticamente en tu navegador predeterminado.
 
