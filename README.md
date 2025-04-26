@@ -1,6 +1,4 @@
-# CHALLENGE_STORE
-
-# 🛒 Dashboard de Análisis de Tiendas
+<h1 align="center"> 🛒 Dashboard de Análisis de Tiendas </h1>
 
 ¡Bienvenido al proyecto de **Análisis de Desempeño de Tiendas**!  
 Este repositorio contiene un script de Python que realiza un análisis completo de ventas, categorías, calificaciones y distribución geográfica de las tiendas de un desafío de ciencia de datos.
