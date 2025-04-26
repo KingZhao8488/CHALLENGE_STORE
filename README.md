@@ -7,7 +7,7 @@ Este repositorio contiene un script de Python que realiza un análisis completo 
 
 En este proyecto analizamos 4 tiendas virtuales distintas utilizando **Python**, **Pandas**, **Matplotlib**, y **Folium** para generar:
 
-- **Ventas totales y calificación promedio
+- **Ventas totales y calificación promedio**
 - **Gráficos** (líneas, áreas, barras horizontales, pie charts, dispersión geográfica)
 - **Mapa Interactivo** con distribución de ventas
 - **Dashboard Responsive** en HTML, con estilo en modo oscuro
@@ -43,7 +43,7 @@ Todo se ejecuta localmente de forma automática.
 
 4. El dashboard HTML se abrirá automáticamente en tu navegador predeterminado.
 
-🗂 Estructura del repositorio
+## 🗂 Estructura del repositorio
 
 📦 Challenge_Store
  ┣ 📂 imagenes_reportes/
@@ -57,12 +57,11 @@ Aquí puedes ver un ejemplo de cómo luce el dashboard generado:
 
 📂 Ver Reporte Generado
 
-🤔 ¿Por qué este proyecto?
-Este proyecto simula un análisis de inteligencia de negocios real:
+## 🤔 ¿Por qué este proyecto?
 
-Extraer insights para ayudar en decisiones estratégicas.
-
-Analizar rendimiento de diferentes tiendas.
+- Este proyecto simula un análisis de inteligencia de negocios real:
+- Extraer insights para ayudar en decisiones estratégicas.
+- Analizar rendimiento de diferentes tiendas.
 
 Identificar la tienda con mejor desempeño para vender o invertir.
 
