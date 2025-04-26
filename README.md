@@ -1,4 +1,4 @@
-<h1 align="center"> 🛒 Dashboard de Análisis de Tiendas </h1>
+<em> # Dashboard de Análisis de Tiendas </em>
 
 ¡Bienvenido al proyecto de **Análisis de Desempeño de Tiendas**!  
 Este repositorio contiene un script de Python que realiza un análisis completo de ventas, categorías, calificaciones y distribución geográfica de las tiendas de un desafío de ciencia de datos.
@@ -6,6 +6,7 @@ Este repositorio contiene un script de Python que realiza un análisis completo 
 ## 📚 Sobre el proyecto
 
 En este proyecto analizamos 4 tiendas virtuales distintas utilizando **Python**, **Pandas**, **Matplotlib**, y **Folium** para generar:
+
 - **KPIs Ejecutivos** (ventas totales y calificación promedio)
 - **Gráficos** (líneas, áreas, barras horizontales, pie charts, dispersión geográfica)
 - **Mapa Interactivo** con distribución de ventas
@@ -26,6 +27,7 @@ Todo se ejecuta localmente de forma automática.
 ## 🚀 Cómo ejecutar el proyecto
 
 1. Clona el repositorio:
+
    ```bash
    git clone https://github.com/tu_usuario/tu_repositorio.git
 
