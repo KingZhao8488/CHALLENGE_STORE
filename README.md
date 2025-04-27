@@ -57,7 +57,7 @@ Todo se ejecuta localmente de forma automática.
 
 Aquí puedes ver un ejemplo de cómo luce el dashboard generado:
 
-![screenshot Dashboard de datos](URL de la imagen generada por el servicio de alojamiento o GitHub)📂 Ver Reporte Generado
+![📂 Ver Reporte Generado](https://github.com/KingZhao8488/CHALLENGE_STORE/blob/main/img_dashboard.png)
 
 ## 🤔 ¿Por qué este proyecto?
 
@@ -76,8 +76,6 @@ Aquí puedes ver un ejemplo de cómo luce el dashboard generado:
 ## 👨‍💻 Autor
 
 Andrés Guerrero
-LinkedIn | GitHub
+[LinkedIn](www.linkedin.com/in/andres-guerrero-ux-ed) | [GitHub](https://github.com/KingZhao8488)
 
 Proyecto realizado como parte del entrenamiento en Data Science.
-
----
