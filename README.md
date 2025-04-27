@@ -46,34 +46,38 @@ Todo se ejecuta localmente de forma automática.
 ## 🗂 Estructura del repositorio
 
 📦 Challenge_Store
- ┣ 📂 imagenes_reportes/
- ┃ ┗ 📄 (Gráficos generados)
- ┣ 📄 challenge.py
- ┣ 📄 reporte_dashboard.html
- ┣ 📄 README.md
 
- 📊 Ejemplo del Dashboard
+- ┣ 📂 imagenes_reportes/
+- ┃ ┗ 📄 (Gráficos generados)
+- ┣ 📄 challenge.py
+- ┣ 📄 reporte_dashboard.html
+- ┣ 📄 README.md
+
+## 📊 Ejemplo del Dashboard
+
 Aquí puedes ver un ejemplo de cómo luce el dashboard generado:
 
-📂 Ver Reporte Generado
+![screenshot Dashboard de datos](URL de la imagen generada por el servicio de alojamiento o GitHub)📂 Ver Reporte Generado
 
 ## 🤔 ¿Por qué este proyecto?
 
 - Este proyecto simula un análisis de inteligencia de negocios real:
 - Extraer insights para ayudar en decisiones estratégicas.
 - Analizar rendimiento de diferentes tiendas.
+- Identificar la tienda con mejor desempeño para vender o invertir.
 
-Identificar la tienda con mejor desempeño para vender o invertir.
+## ✨ Funcionalidades principales
 
-✨ Funcionalidades principales
-Agrupación y suma de ventas por categoría.
+- Agrupación y suma de ventas por categoría.
+- Análisis de calificaciones promedio por tienda.
+- Visualización de datos en gráficos y mapas.
+- Generación automática de reportes ejecutivos.
 
-Análisis de calificaciones promedio por tienda.
+## 👨‍💻 Autor
 
-Visualización de datos en gráficos y mapas.
-
-Generación automática de reportes ejecutivos.
-
-👨‍💻 Autor
 Andrés Guerrero
 LinkedIn | GitHub
+
+Proyecto realizado como parte del entrenamiento en Data Science.
+
+---
